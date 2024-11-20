@@ -10,10 +10,24 @@
 </h:head>
 <h:body>
     <h:panelGroup>
-        <h:outputText value="Сидимеков Дмитрий Алексеевич | Группа: P3222 | Вариант: 979"/>
-<!--        <p:poll interval="8" listener="#{ClockBean.updateTime()}" update="currentTime"/>-->
-        <h:outputText id="currentTime" value="#{ClockBean.currentTime}"/>
-        <h:link value="Перейти к приложению" outcome="main"/>
+        <h:outputText value="Сидимеков Дмитрий Алексеевич | Группа: P3222 | Вариант: 979"/><br/>
+        <h:outputText id="currentTime" value="" /><br/>
+        <h:link value="Перейти к приложению" outcome="main"/><br/>
     </h:panelGroup>
+
+    <script type="text/javascript">
+        function updateTime() {
+            const clock = document.getElementById("currentTime");
+            const time = new Date();
+            if (clock) {
+                clock.innerHTML = time.toLocaleTimeString();
+            } else {
+                console.error("CLOCK NOT FOUND!!!");
+            }
+        }
+
+        setInterval(updateTime, 8000);
+        window.onload = updateTime;
+    </script>
 </h:body>
 </html>

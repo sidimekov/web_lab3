@@ -6,25 +6,78 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Web lab 3</title>
+    <title>Web Lab 3</title>
+    <!-- Подключаем стили -->
+    <h:outputStylesheet name="css/main.css" />
+    <h:outputScript name="js/plot.js" />
 </h:head>
+
 <h:body>
-    <h:panelGroup>
+    <div class="container">
+        <h1>LAB 3</h1>
+
         <h:form>
-            <!-- X -->
-            <h:selectBooleanCheckbox>
+            <h2>Введите координаты и радиус</h2>
+            <div class="form-group">
+                <label for="x">X:</label>
+                <h:selectBooleanCheckbox>
+                    <f:selectItem itemLabel="1" itemValue="1"/>
+                    <f:selectItem itemLabel="2" itemValue="2"/>
+                    <f:selectItem itemLabel="3" itemValue="3"/>
+                    <f:selectItem itemLabel="4" itemValue="4"/>
+                    <f:selectItem itemLabel="5" itemValue="5"/>
+                </h:selectBooleanCheckbox>
+                <h:inputText id="x" value="#{bean.x}" required="true" styleClass="input-field"/>
+            </div>
 
-            </h:selectBooleanCheckbox>
-            <!-- Y -->
-            <h:inputText>
+            <div class="form-group">
+                <label for="y">Y:</label>
+                <h:inputText id="y" value="#{bean.y}" required="true" styleClass="input-field"/>
+            </div>
 
-            </h:inputText>
-            <!-- R -->
-            <h:selectOneMenu>
+            <div class="form-group">
+                <label for="r">Радиус R:</label>
+                <h:selectOneMenu id="r" value="#{bean.r}" required="true" styleClass="input-field">
+                    <f:selectItem itemLabel="1" itemValue="1"/>
+                    <f:selectItem itemLabel="2" itemValue="2"/>
+                    <f:selectItem itemLabel="3" itemValue="3"/>
+                    <f:selectItem itemLabel="4" itemValue="4"/>
+                    <f:selectItem itemLabel="5" itemValue="5"/>
+                </h:selectOneMenu>
+            </div>
 
-            </h:selectOneMenu>
+            <h:commandButton value="Проверить" action="#{bean.checkPoint}" styleClass="btn-submit"/>
+
+            <h:outputText value="#{bean.errorMessage}" rendered="#{not empty bean.errorMessage}" styleClass="error-message" />
         </h:form>
-    </h:panelGroup>
-    <h:link value="Перейти назад на главную" outcome="index"/><br/>
+
+        <div class="graph">
+            <canvas id="plot-canvas" width="500" height="500"></canvas>
+        </div>
+
+        <h2>Результаты</h2>
+        <h:dataTable class="resultTable" value="#{bean.results}" var="result" border="1" cellpadding="5">
+            <h:column>
+                <f:facet name="header">X</f:facet>
+                #{result.x}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Y</f:facet>
+                #{result.y}
+            </h:column>
+            <h:column>
+                <f:facet name="header">R</f:facet>
+                #{result.r}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Попадание</f:facet>
+                #{result.hit ? 'Да' : 'Нет'}
+            </h:column>
+        </h:dataTable>
+
+        <h:link value="Назад на главную" outcome="index"/>
+
+    </div>
 </h:body>
+
 </html>

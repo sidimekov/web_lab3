@@ -4,51 +4,91 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Web Lab 3</title>
-    <!-- Подключаем стили -->
-    <h:outputStylesheet name="css/main.css" />
-    <h:outputScript name="js/plot.js" />
+    <h:outputStylesheet name="css/main.css"/>
+    <h:outputScript name="js/plot.js"/>
 </h:head>
 
 <h:body>
     <div class="container">
-        <h1>LAB 3</h1>
+        <h1>WEB LAB 3</h1>
 
         <h:form>
-            <h2>Введите координаты и радиус</h2>
-            <div class="form-group">
-                <label for="x">X:</label>
-                <h:selectBooleanCheckbox>
-                    <f:selectItem itemLabel="1" itemValue="1"/>
-                    <f:selectItem itemLabel="2" itemValue="2"/>
-                    <f:selectItem itemLabel="3" itemValue="3"/>
-                    <f:selectItem itemLabel="4" itemValue="4"/>
-                    <f:selectItem itemLabel="5" itemValue="5"/>
-                </h:selectBooleanCheckbox>
-                <h:inputText id="x" value="#{bean.x}" required="true" styleClass="input-field"/>
-            </div>
+            <p:panel header="Введите координаты и радиус" styleClass="form-panel">
+                X:
+                <div class="form-group">
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x1" value="#{pointBean.x == -2.0}" onclick="#{pointBean.setSelectedX(-2.0)}"/>
+                        <label for="x1">-2.0</label>
+                    </div>
 
-            <div class="form-group">
-                <label for="y">Y:</label>
-                <h:inputText id="y" value="#{bean.y}" required="true" styleClass="input-field"/>
-            </div>
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x2" value="#{pointBean.x == -1.5}" onclick="#{pointBean.setSelectedX(-1.5)}"/>
+                        <label for="x2">-1.5</label>
+                    </div>
 
-            <div class="form-group">
-                <label for="r">Радиус R:</label>
-                <h:selectOneMenu id="r" value="#{bean.r}" required="true" styleClass="input-field">
-                    <f:selectItem itemLabel="1" itemValue="1"/>
-                    <f:selectItem itemLabel="2" itemValue="2"/>
-                    <f:selectItem itemLabel="3" itemValue="3"/>
-                    <f:selectItem itemLabel="4" itemValue="4"/>
-                    <f:selectItem itemLabel="5" itemValue="5"/>
-                </h:selectOneMenu>
-            </div>
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x3" value="#{pointBean.x == -1.0}" onclick="#{pointBean.setSelectedX(-1.0)}"/>
+                        <label for="x3">-1.0</label>
+                    </div>
 
-            <h:commandButton value="Проверить" action="#{bean.checkPoint}" styleClass="btn-submit"/>
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x4" value="#{pointBean.x == -0.5}" onclick="#{pointBean.setSelectedX(-0.5)}"/>
+                        <label for="x4">-0.5</label>
+                    </div>
 
-            <h:outputText value="#{bean.errorMessage}" rendered="#{not empty bean.errorMessage}" styleClass="error-message" />
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x5" value="#{pointBean.x == 0.0}" onclick="#{pointBean.setSelectedX(0.0)}"/>
+                        <label for="x5">0.0</label>
+                    </div>
+
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x6" value="#{pointBean.x == 0.5}" onclick="#{pointBean.setSelectedX(0.5)}"/>
+                        <label for="x6">0.5</label>
+                    </div>
+
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x7" value="#{pointBean.x == 1.0}" onclick="#{pointBean.setSelectedX(1.0)}"/>
+                        <label for="x7">1.0</label>
+                    </div>
+
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x8" value="#{pointBean.x == 1.5}" onclick="#{pointBean.setSelectedX(1.5)}"/>
+                        <label for="x8">1.5</label>
+                    </div>
+
+                    <div class="checkboxik">
+                        <h:selectBooleanCheckbox id="x9" value="#{pointBean.x == 2.0}" onclick="#{pointBean.setSelectedX(2.0)}"/>
+                        <label for="x9">2.0</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="y">Y:</label>
+                    <h:inputText id="y" value="#{pointBean.y}" required="true" styleClass="input-field"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="r">Радиус R:</label>
+                    <h:selectOneMenu id="r" value="#{pointBean.r}" required="true" styleClass="input-field">
+                        <f:selectItem itemLabel="1.0" itemValue="1.0"/>
+                        <f:selectItem itemLabel="1.5" itemValue="1.5"/>
+                        <f:selectItem itemLabel="2.0" itemValue="2.0"/>
+                        <f:selectItem itemLabel="2.5" itemValue="2.5"/>
+                        <f:selectItem itemLabel="3.0" itemValue="3.0"/>
+                    </h:selectOneMenu>
+                </div>
+
+                <p:commandButton value="Проверить" action="#{pointBean.checkPoint}" styleClass="btn-submit">
+                    <f:ajax execute="x y r" render="result"/>
+                </p:commandButton>
+
+<!--                <h:outputText value="#{pointBean.errorMessage}" rendered="#{not empty pointBean.errorMessage}"-->
+<!--                              styleClass="error-message"/>-->
+            </p:panel>
         </h:form>
 
         <div class="graph">
@@ -56,7 +96,7 @@
         </div>
 
         <h2>Результаты</h2>
-        <h:dataTable class="resultTable" value="#{bean.results}" var="result" border="1" cellpadding="5">
+        <h:dataTable value="#{resultBean.results}" var="result">
             <h:column>
                 <f:facet name="header">X</f:facet>
                 #{result.x}
@@ -71,13 +111,20 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Попадание</f:facet>
-                #{result.hit ? 'Да' : 'Нет'}
+                #{result.inside ? 'Да' : 'Нет'}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Время выполнения</f:facet>
+                #{result.execTime} ms
+            </h:column>
+            <h:column>
+                <f:facet name="header">Текущее время</f:facet>
+                #{result.currentTime}
             </h:column>
         </h:dataTable>
 
-        <h:link value="Назад на главную" outcome="index"/>
-
+        <h:link value="Назад на главную" outcome="index" styleClass="back-link"/>
     </div>
-</h:body>
 
+</h:body>
 </html>

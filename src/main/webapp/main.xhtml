@@ -27,7 +27,7 @@
                                 <h:selectBooleanCheckbox value="#{pointBean.checkboxesX[value]}" styleClass="checkbox-x">
                                     <f:ajax execute="@this" event="change"
                                             listener="#{pointBean.onCheckboxChange(value)}"
-                                            update="x_checkboxes"/>
+                                            render="x_checkboxes"/>
                                 </h:selectBooleanCheckbox>
                                 #{value}
                             </label>
@@ -52,10 +52,11 @@
                     </h:selectOneMenu>
                 </div>
 
-                <h:messages globalOnly="true" styleClass="error-message"/>
+                <h:messages id="errors" globalOnly="true" styleClass="error-message"/>
 
-                <h:commandButton value="Проверить" action="#{pointBean.checkPoint()}" update="result" process="@form"
-                                 styleClass="btn-submit" onclick="validateForm()"/>
+                <h:commandButton value="Проверить" styleClass="btn-submit">
+                    <f:ajax execute="@form" listener="#{pointBean.checkPoint()}" render="resultTable errors"/>
+                </h:commandButton>
             </p:panel>
         </h:form>
 
@@ -64,7 +65,7 @@
         </div>
 
         <h2>Результаты</h2>
-        <h:dataTable value="#{resultBean.results}" var="result" id="result">
+        <h:dataTable value="#{resultBean.results}" var="result" id="resultTable">
             <h:column>
                 <f:facet name="header">X</f:facet>
                 #{result.x}

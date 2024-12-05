@@ -2,9 +2,12 @@ package beans;
 
 import entity.Result;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Data;
+import util.AreaChecker;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -16,15 +19,16 @@ import java.util.List;
 import java.util.Map;
 
 // TODO:
-//1
-//1 - validation
-//1 - database entity
+// validation
+// onclick
+// database entity
 
 @Named("pointBean")
 @RequestScoped
 @Data
 public class PointBean implements Serializable {
     private double x = 0.0;
+    // ключ - число x, значение - включен ли чекбокс или нет
     private HashMap<Double, Boolean> checkboxesX = new HashMap<>();
     private double y = 0.0;
     private double r = 3.0;
@@ -44,10 +48,14 @@ public class PointBean implements Serializable {
     }
 
     public void checkPoint() {
-        this.x = getXFromCheckboxes();
+        try {
+            this.x = getXFromCheckboxes();
+        } catch (IllegalArgumentException e) {
+            return;
+        }
 
         Instant start = Instant.now();
-        boolean isInside = checkInside(x, y, r);
+        boolean isInside = AreaChecker.checkInside(x, y, r);
         Instant end = Instant.now();
 
         double execTime = Duration.between(start, end).toNanos() / 1_000_000.0;
@@ -57,20 +65,7 @@ public class PointBean implements Serializable {
         resultBean.addResult(result);
     }
 
-    private boolean checkInside(double x, double y, double r) {
-        if (x <= 0 && y >= 0) {
-            return x * x + y * y <= r * r;
-        }
-        if (x <= 0 && y <= 0) {
-            return y >= -r && x >= -r / 2;
-        }
-        if (x >= 0 && y >= 0) {
-            return y <= -1 * Math.sqrt(3) * x + r;
-        }
-        return false;
-    }
-
-    public double getXFromCheckboxes() {
+    public double getXFromCheckboxes() throws IllegalArgumentException {
         if (checkboxesX.values().stream()
                 .filter(Boolean::booleanValue)
                 .count() == 1
@@ -80,8 +75,11 @@ public class PointBean implements Serializable {
                     .findFirst()
                     .get().getKey()
             );
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка. Нужно выбрать один чекбокс X.", "а тут не один"));
+            throw new IllegalArgumentException("Incorrect X checkboxes");
         }
-        return 0.0;
     }
 
     public void onCheckboxChange(double newX) {

@@ -19,6 +19,9 @@ public class Result {
     private String currentTime;
     private double execTime;
 
+    public Result() {
+    }
+
     public Result(double x, double y, double r, boolean in, String currentTime, double execTime) {
         this.x = x;
         this.y = y;

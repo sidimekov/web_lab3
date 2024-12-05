@@ -28,7 +28,7 @@
                         <div class="checkboxik">
                             <label>
                                 <h:selectBooleanCheckbox value="#{pointBean.checkboxesX[value]}" styleClass="checkbox-x"
-                                                         onchange="updateHiddenX(this)">
+                                                         onchange="updateHiddenX('#{value}', this)">
                                     <f:ajax execute="@this" event="change"
                                             listener="#{pointBean.onCheckboxChange(value)}"
                                             render="x_checkboxes"

@@ -24,15 +24,24 @@ public class ResultBean implements Serializable {
     @PostConstruct
     public void init() {
         results = new LinkedList<>();
+        loadData();
     }
 
     public void addResult(Result result) {
         results.addFirst(result);
     }
 
-//    public List<Result> getAllResults() {
-//        return entityManager.createQuery("SELECT r FROM Result r", Result.class).getResultList();
-//    }
+    public void loadData() {
+        List<Result> resultsList = entityManager.createQuery("SELECT r FROM Result r", Result.class)
+                .getResultList();
+
+        results = new LinkedList<>();
+
+        for (int i = resultsList.size() - 1; i >= 0; i--) {
+            results.add(resultsList.get(i));
+        }
+    }
+
     @Transactional
     public void save(Result entity) {
         entityManager.persist(entity);

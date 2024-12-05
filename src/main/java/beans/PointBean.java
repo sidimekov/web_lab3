@@ -41,6 +41,8 @@ public class PointBean implements Serializable {
 
     public void checkPoint() {
 
+//        System.out.println(x);
+
         Instant start = Instant.now();
         boolean isInside = AreaChecker.checkInside(x, y, r);
         Instant end = Instant.now();
@@ -52,6 +54,7 @@ public class PointBean implements Serializable {
         resultBean.addResult(result);
 
         resultBean.save(result);
+
     }
 
 //    public double getXFromCheckboxes() throws IllegalArgumentException {
@@ -74,8 +77,8 @@ public class PointBean implements Serializable {
     public void onCheckboxChange(double newX) {
         checkboxesX.replaceAll((key, value) -> false);
         checkboxesX.put(newX, true);
-        this.x = newX;
-        System.out.println("новый X: " + x);
+//        this.x = newX;
+//        System.out.println("x: " + newX);
     }
 
 }

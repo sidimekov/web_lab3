@@ -1,7 +1,7 @@
-function updateHiddenX(checkbox) {
+function updateHiddenX(value, checkbox) {
     const xInputHidden = document.getElementById("form:x");
 
     if (checkbox.checked) {
-        xInputHidden.value = checkbox.value;
+        xInputHidden.value = value;
     }
 }

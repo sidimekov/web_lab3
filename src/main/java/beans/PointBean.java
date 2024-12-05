@@ -1,32 +1,63 @@
 package beans;
 
-import beans.ResultBean;
-import entity.ResultEntity;
-import jakarta.faces.bean.ManagedBean;
-import jakarta.faces.bean.RequestScoped;
+import entity.Result;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@ManagedBean(name = "pointBean")
+// TODO:
+//1
+//1 - x is 0
+//1 - validation
+//1 - database entity
+
+@Named("pointBean")
 @RequestScoped
-public class PointBean {
-    private double x;
-    private double y;
+public class PointBean implements Serializable {
+    private double x = 0.0;
+    private HashMap<Double, Boolean> checkboxesX = new HashMap<>();
+    private double y = 0.0;
     private double r = 3.0;
+
+    private static final List<Double> X_VALUES = List.of(-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0);
 
     @Inject
     private ResultBean resultBean;
+
+    public PointBean() {
+        X_VALUES.forEach(k -> checkboxesX.put(k, false));
+        checkboxesX.put(0.0, true);
+    }
 
     public double getX() {
         return x;
     }
 
+    public List<Double> getXValues() {
+        return X_VALUES;
+    }
+
     public void setX(double x) {
         this.x = x;
+    }
+
+    public HashMap<Double, Boolean> getCheckboxesX() {
+        return checkboxesX;
+    }
+
+    public void setCheckboxesX(HashMap<Double, Boolean> checkboxesX) {
+        this.checkboxesX = checkboxesX;
     }
 
     public double getY() {
@@ -45,20 +76,17 @@ public class PointBean {
         this.r = r;
     }
 
-    public void setSelectedX(double x) {
-        this.x = x;
-    }
-
     public void checkPoint() {
+        this.x = getXFromCheckboxes();
+
         Instant start = Instant.now();
         boolean isInside = checkInside(x, y, r);
         Instant end = Instant.now();
 
         double execTime = Duration.between(start, end).toNanos() / 1_000_000.0;
-
         String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-        ResultEntity result = new ResultEntity(x, y, r, isInside, currentTime, execTime);
+        Result result = new Result(x, y, r, isInside, currentTime, execTime);
         resultBean.addResult(result);
     }
 
@@ -74,4 +102,29 @@ public class PointBean {
         }
         return false;
     }
+
+    public double getXFromCheckboxes() {
+        if (checkboxesX.values().stream()
+                .filter(Boolean::booleanValue)
+                .count() == 1
+        ) {
+            return (checkboxesX.entrySet().stream()
+                    .filter(Map.Entry::getValue)
+                    .findFirst()
+                    .get().getKey()
+            );
+        }
+        return 0.0;
+    }
+
+    public void onCheckboxChange(double newX) {
+        checkboxesX.replaceAll((key, value) -> false);
+        checkboxesX.put(newX, true);
+        this.x = newX;
+
+        checkboxesX.forEach((k, v) -> {
+            if (v) System.out.println("Активный чекбокс: " + x);
+        });
+    }
+
 }

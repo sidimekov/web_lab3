@@ -1,5 +1,5 @@
 function updateTime() {
-    const clock = document.getElementById("currentTime");
+    const clock = document.querySelector(".clock");
     const time = new Date();
     if (clock) {
         clock.innerHTML = time.toLocaleTimeString();

@@ -1,29 +1,28 @@
 package beans;
 
-import entity.ResultEntity;
+import entity.Result;
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.bean.ManagedBean;
-import jakarta.faces.bean.SessionScoped;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-@ManagedBean
+@Named("resultBean")
 @SessionScoped
 public class ResultBean implements Serializable {
-    private List<ResultEntity> results;
+    private LinkedList<Result> results;
 
     @PostConstruct
     public void init() {
-        results = new ArrayList<>();
+        results = new LinkedList<>();
     }
 
-    public List<ResultEntity> getResults() {
+    public List<Result> getResults() {
         return results;
     }
 
-    public void addResult(ResultEntity result) {
-        results.add(result);
+    public void addResult(Result result) {
+        results.addFirst(result);
     }
 }

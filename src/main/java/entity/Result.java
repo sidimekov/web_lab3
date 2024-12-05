@@ -1,6 +1,6 @@
 package entity;
 
-public class ResultEntity {
+public class Result {
     private double x;
     private double y;
     private double r;
@@ -8,7 +8,7 @@ public class ResultEntity {
     private String currentTime;
     private double execTime;
 
-    public ResultEntity(double x, double y, double r, boolean in, String currentTime, double execTime) {
+    public Result(double x, double y, double r, boolean in, String currentTime, double execTime) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -63,5 +63,17 @@ public class ResultEntity {
 
     public void setExecTime(double execTime) {
         this.execTime = execTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ResultEntity{" +
+                "x=" + x +
+                ", y=" + y +
+                ", r=" + r +
+                ", isInside=" + isInside +
+                ", currentTime='" + currentTime + '\'' +
+                ", execTime=" + execTime +
+                '}';
     }
 }

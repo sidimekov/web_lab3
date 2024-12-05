@@ -1,7 +1,7 @@
 package beans;
 
 import entity.Result;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -19,12 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 // TODO:
-// validation
-// onclick
 // database entity
 
 @Named("pointBean")
-@RequestScoped
+@SessionScoped
 @Data
 public class PointBean implements Serializable {
     private double x = 0.0;
@@ -48,11 +46,6 @@ public class PointBean implements Serializable {
     }
 
     public void checkPoint() {
-        try {
-            this.x = getXFromCheckboxes();
-        } catch (IllegalArgumentException e) {
-            return;
-        }
 
         Instant start = Instant.now();
         boolean isInside = AreaChecker.checkInside(x, y, r);
@@ -65,27 +58,28 @@ public class PointBean implements Serializable {
         resultBean.addResult(result);
     }
 
-    public double getXFromCheckboxes() throws IllegalArgumentException {
-        if (checkboxesX.values().stream()
-                .filter(Boolean::booleanValue)
-                .count() == 1
-        ) {
-            return (checkboxesX.entrySet().stream()
-                    .filter(Map.Entry::getValue)
-                    .findFirst()
-                    .get().getKey()
-            );
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка. Нужно выбрать один чекбокс X.", "а тут не один"));
-            throw new IllegalArgumentException("Incorrect X checkboxes");
-        }
-    }
+//    public double getXFromCheckboxes() throws IllegalArgumentException {
+//        if (checkboxesX.values().stream()
+//                .filter(Boolean::booleanValue)
+//                .count() == 1
+//        ) {
+//            return (checkboxesX.entrySet().stream()
+//                    .filter(Map.Entry::getValue)
+//                    .findFirst()
+//                    .get().getKey()
+//            );
+//        } else {
+//            FacesContext.getCurrentInstance().addMessage(null,
+//                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка. Нужно выбрать один чекбокс X.", "а тут не один"));
+//            throw new IllegalArgumentException("Incorrect X checkboxes");
+//        }
+//    }
 
     public void onCheckboxChange(double newX) {
         checkboxesX.replaceAll((key, value) -> false);
         checkboxesX.put(newX, true);
         this.x = newX;
+        System.out.println("новый X: " + x);
     }
 
 }

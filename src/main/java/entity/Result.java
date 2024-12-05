@@ -2,8 +2,16 @@ package entity;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
 @Data
+@Entity
+@Table(name = "result")
 public class Result {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private double x;
     private double y;
     private double r;

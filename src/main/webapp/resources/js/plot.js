@@ -2,44 +2,45 @@ const scale = 40
 let centerX, centerY, ctx = []
 
 function drawCoordinatePlane(canvas) {
-    ctx = canvas.getContext('2d')
-    centerX = canvas.width / 2
-    centerY = canvas.height / 2
+    ctx = canvas.getContext('2d');
+    centerX = canvas.width / 2;
+    centerY = canvas.height / 2;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.beginPath()
-    ctx.moveTo(0, centerY)
-    ctx.lineTo(canvas.width, centerY)
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 2
-    ctx.stroke()
+    ctx.beginPath();
+    ctx.moveTo(0, centerY);
+    ctx.lineTo(canvas.width, centerY);
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-    ctx.beginPath()
-    ctx.moveTo(centerX, 0)
-    ctx.lineTo(centerX, canvas.height)
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 2
-    ctx.stroke()
+    ctx.beginPath();
+    ctx.moveTo(centerX, 0);
+    ctx.lineTo(centerX, canvas.height);
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-    ctx.font = '9px Arial'
-    ctx.strokeStyle = 'black'
+    ctx.font = '9px Arial';
+    ctx.fillStyle = 'black';
     for (let i = -5; i <= 5; i++) {
         if (i !== 0) {
-            ctx.fillText(i, centerX + i * scale - 5, centerY + 15)
-            ctx.beginPath()
-            ctx.moveTo(centerX + i * scale, centerY - 5)
-            ctx.lineTo(centerX + i * scale, centerY + 5)
-            ctx.stroke()
+            ctx.fillText(i, centerX + i * scale - 5, centerY + 15);
+            ctx.beginPath();
+            ctx.moveTo(centerX + i * scale, centerY - 5);
+            ctx.lineTo(centerX + i * scale, centerY + 5);
+            ctx.stroke();
 
-            ctx.fillText(-i, centerX - 15, centerY + i * scale + 5)
-            ctx.beginPath()
-            ctx.moveTo(centerX - 5, centerY + i * scale)
-            ctx.lineTo(centerX + 5, centerY + i * scale)
-            ctx.stroke()
+            ctx.fillText(-i, centerX - 15, centerY + i * scale + 5);
+            ctx.beginPath();
+            ctx.moveTo(centerX - 5, centerY + i * scale);
+            ctx.lineTo(centerX + 5, centerY + i * scale);
+            ctx.stroke();
         }
     }
 }
+
 
 function drawPlot(canvas, r) {
     ctx = canvas.getContext('2d')

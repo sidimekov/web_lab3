@@ -2,8 +2,6 @@ package beans;
 
 import entity.Result;
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Data;
@@ -16,10 +14,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-// TODO:
-// database entity
 
 @Named("pointBean")
 @SessionScoped
@@ -56,6 +50,8 @@ public class PointBean implements Serializable {
 
         Result result = new Result(x, y, r, isInside, currentTime, execTime);
         resultBean.addResult(result);
+
+        resultBean.save(result);
     }
 
 //    public double getXFromCheckboxes() throws IllegalArgumentException {

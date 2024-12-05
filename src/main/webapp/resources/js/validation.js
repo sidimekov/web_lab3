@@ -1,6 +1,5 @@
-
 function showError(message) {
-    const errorContainer = document.querySelector(".error-message");
+    const errorContainer = document.getElementById("error-message2");
     errorContainer.style.display = "block";
     errorContainer.innerHTML = message;
 
@@ -8,7 +7,7 @@ function showError(message) {
 }
 
 function hideError() {
-    const errorContainer = document.querySelector(".error-message");
+    const errorContainer = document.getElementById("error-message2");
     errorContainer.style.display = "none";
 }
 
@@ -16,28 +15,21 @@ function validateForm() {
     let isValid = true;
     let errorMessage = "";
 
-    let xSelected = false;
+    let xSelected = 0;
     document.querySelectorAll(".checkbox-x").forEach(function(checkbox) {
-        checkbox.addEventListener("change", function() {
-            if (checkbox.checked) {
-                document.querySelectorAll(".checkbox-x").forEach(function(otherCheckbox) {
-                    if (otherCheckbox !== checkbox) {
-                        otherCheckbox.checked = false;
-                    }
-                });
-                xSelected = true;
-            }
-        });
+        if (checkbox.checked) {
+            xSelected++;
+        }
     });
-    if (!xSelected) {
+    if (xSelected !== 1) {
         errorMessage += "Выберите одно значение для X!<br/>";
         isValid = false;
     }
 
-    let yInput = document.getElementById("y");
+    let yInput = document.querySelector(".inputY");
     let yValue = parseFloat(yInput.value);
-    if (isNaN(yValue) || yValue < -3 || yValue > 5 || yInput.value.length > 15) {
-        showError("Значение Y должно быть числом от -3 до 5");
+    if (isNaN(yValue) || yValue < -3 || yValue > 5) {
+        errorMessage += "Значение Y должно быть числом от -3 до 5<br/>";
         isValid = false;
     }
 

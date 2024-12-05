@@ -38,7 +38,7 @@
 
                 <div class="form-group">
                     <label for="y">Y:</label>
-                    <h:inputText id="y" value="#{pointBean.y}" required="true" styleClass="input-field"/>
+                    <h:inputText id="y" value="#{pointBean.y}" required="true" styleClass="input-field inputY" maxlength="15"/>
                 </div>
 
                 <div class="form-group">
@@ -53,8 +53,9 @@
                 </div>
 
                 <h:messages id="errors" globalOnly="true" styleClass="error-message"/>
+                <div id="error-message2" class="error-message"></div>
 
-                <h:commandButton value="Проверить" styleClass="btn-submit">
+                <h:commandButton value="Проверить" styleClass="btn-submit" onclick="return validateForm();">
                     <f:ajax execute="@form" listener="#{pointBean.checkPoint()}" render="resultTable errors"/>
                 </h:commandButton>
             </p:panel>

@@ -4,10 +4,12 @@ import entity.Result;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
+import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.*;
 
+@Getter
 @Named("resultBean")
 @SessionScoped
 public class ResultBean implements Serializable {
@@ -16,10 +18,6 @@ public class ResultBean implements Serializable {
     @PostConstruct
     public void init() {
         results = new LinkedList<>();
-    }
-
-    public List<Result> getResults() {
-        return results;
     }
 
     public void addResult(Result result) {

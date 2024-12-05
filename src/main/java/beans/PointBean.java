@@ -1,29 +1,28 @@
 package beans;
 
 import entity.Result;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 // TODO:
 //1
-//1 - x is 0
 //1 - validation
 //1 - database entity
 
 @Named("pointBean")
 @RequestScoped
+@Data
 public class PointBean implements Serializable {
     private double x = 0.0;
     private HashMap<Double, Boolean> checkboxesX = new HashMap<>();
@@ -40,40 +39,8 @@ public class PointBean implements Serializable {
         checkboxesX.put(0.0, true);
     }
 
-    public double getX() {
-        return x;
-    }
-
     public List<Double> getXValues() {
         return X_VALUES;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public HashMap<Double, Boolean> getCheckboxesX() {
-        return checkboxesX;
-    }
-
-    public void setCheckboxesX(HashMap<Double, Boolean> checkboxesX) {
-        this.checkboxesX = checkboxesX;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getR() {
-        return r;
-    }
-
-    public void setR(double r) {
-        this.r = r;
     }
 
     public void checkPoint() {
@@ -121,10 +88,6 @@ public class PointBean implements Serializable {
         checkboxesX.replaceAll((key, value) -> false);
         checkboxesX.put(newX, true);
         this.x = newX;
-
-        checkboxesX.forEach((k, v) -> {
-            if (v) System.out.println("Активный чекбокс: " + x);
-        });
     }
 
 }

@@ -40,9 +40,6 @@ public class PointBean implements Serializable {
     }
 
     public void checkPoint() {
-
-//        System.out.println(x);
-
         Instant start = Instant.now();
         boolean isInside = AreaChecker.checkInside(x, y, r);
         Instant end = Instant.now();
@@ -52,33 +49,11 @@ public class PointBean implements Serializable {
 
         Result result = new Result(x, y, r, isInside, currentTime, execTime);
         resultBean.addResult(result);
-
-        resultBean.save(result);
-
     }
-
-//    public double getXFromCheckboxes() throws IllegalArgumentException {
-//        if (checkboxesX.values().stream()
-//                .filter(Boolean::booleanValue)
-//                .count() == 1
-//        ) {
-//            return (checkboxesX.entrySet().stream()
-//                    .filter(Map.Entry::getValue)
-//                    .findFirst()
-//                    .get().getKey()
-//            );
-//        } else {
-//            FacesContext.getCurrentInstance().addMessage(null,
-//                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ошибка. Нужно выбрать один чекбокс X.", "а тут не один"));
-//            throw new IllegalArgumentException("Incorrect X checkboxes");
-//        }
-//    }
 
     public void onCheckboxChange(double newX) {
         checkboxesX.replaceAll((key, value) -> false);
         checkboxesX.put(newX, true);
-//        this.x = newX;
-//        System.out.println("x: " + newX);
     }
 
 }

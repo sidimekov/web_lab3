@@ -3,6 +3,7 @@ package entity;
 import lombok.Data;
 
 import javax.persistence.*;
+//import org.eclipse.persistence.*;
 
 @Data
 @Entity
@@ -12,11 +13,22 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private double x;
+
+    @Column(nullable = false)
     private double y;
+
+    @Column(nullable = false)
     private double r;
+
+    @Column(nullable = false)
     private boolean inside;
+
+    @Column(nullable = false)
     private String currentTime;
+
+    @Column(nullable = false)
     private double execTime;
 
     public Result() {

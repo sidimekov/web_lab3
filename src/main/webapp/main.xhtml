@@ -44,7 +44,10 @@
                 <div class="form-group">
                     <label for="y">Y:</label>
                     <h:inputText id="y" value="#{pointBean.y}" required="true" styleClass="input-field inputY"
-                                 maxlength="15"/>
+                                 maxlength="15">
+                        <f:validateDoubleRange minimum="-3" maximum="5" message="Значение Y должно быть числом от -3 до 5"/>
+                        <f:validateLength maximum="15" message="Слишком много символов для Y"/>
+                    </h:inputText>
                 </div>
 
                 <div class="form-group">

@@ -1,49 +1,42 @@
 package beans;
 
+import db.ResultDAO;
 import entity.Result;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.transaction.Transactional;
-import lombok.Getter;
+import lombok.Data;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.Serializable;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
-@Getter
 @Named("resultBean")
 @SessionScoped
+@Data
 public class ResultBean implements Serializable {
-    private LinkedList<Result> results;
+    private LinkedList<Result> results = new LinkedList<>();
 
-    @PersistenceContext(unitName = "PU")
-    private EntityManager entityManager;
+    @Inject
+    private ResultDAO resultDAO;
 
     @PostConstruct
     public void init() {
-        results = new LinkedList<>();
         loadData();
     }
 
     public void addResult(Result result) {
         results.addFirst(result);
+        resultDAO.save(result);
     }
 
     public void loadData() {
-        List<Result> resultsList = entityManager.createQuery("SELECT r FROM Result r", Result.class)
-                .getResultList();
+        List<Result> resultsList = resultDAO.loadAllResults();
 
         results = new LinkedList<>();
-
         for (int i = resultsList.size() - 1; i >= 0; i--) {
             results.add(resultsList.get(i));
         }
-    }
-
-    @Transactional
-    public void save(Result entity) {
-        entityManager.persist(entity);
     }
 }

@@ -1,0 +1,7 @@
+Testsuite: CheckerTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,016 sec
+
+Testcase: testHitInSector took 0,002 sec
+Testcase: testHitInTriangle took 0 sec
+Testcase: testHitInRectangle took 0 sec
+Testcase: testHitInArea took 0,001 sec
